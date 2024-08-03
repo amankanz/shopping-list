@@ -22,8 +22,8 @@ export default function App() {
 }
 
 function ShoppingList() {
-  // const items = initials_items;
   const [items, setItems] = useState(initials_items);
+  const [sortBy, setSortBy] = useState("input");
 
   function handleAddNewItem(newItem) {
     setItems((items) => [...items, newItem]);
@@ -41,8 +41,23 @@ function ShoppingList() {
     );
   }
 
+  let sortedItems;
+
+  if (sortBy === "input") sortedItems = items;
+
+  if (sortBy === "description")
+    sortedItems = items.slice().sort((a, b) => a.name.localeCompare(b.name));
+
+  if (sortBy === "purchased")
+    sortedItems = items
+      .slice()
+      .sort((a, b) => Number(a.purchased) - Number(b.purchased));
+
   function handleClearList() {
-    setItems([]);
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all items?"
+    );
+    if (confirmed) setItems([]);
   }
 
   return (
@@ -51,7 +66,7 @@ function ShoppingList() {
         <AddItemForm onAddNewItem={handleAddNewItem} />
       </span>
       <ul>
-        {items.map((item) => (
+        {sortedItems.map((item) => (
           <ShoppingItem
             key={item.id}
             item={item}
@@ -61,6 +76,13 @@ function ShoppingList() {
         ))}
       </ul>
 
+      <span>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="input">Sort by input order</option>
+          <option value="description">Sort by description</option>
+          <option value="purchased">Sort by purchased status</option>
+        </select>
+      </span>
       <Button onClick={handleClearList}>Clear List 🚮</Button>
 
       <Stats items={items} />
@@ -84,6 +106,7 @@ function ShoppingItem({ item, onDeleteItem, onToggleItem }) {
 
 function AddItemForm({ onAddNewItem }) {
   const [newItem, setNewItem] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -110,6 +133,13 @@ function AddItemForm({ onAddNewItem }) {
         value={newItem}
         onChange={(e) => setNewItem(e.target.value)}
       />
+      <select value={quantity} onChange={(e) => setQuantity(e.target.value)}>
+        {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
+          <option key={num} value={num}>
+            {num}
+          </option>
+        ))}
+      </select>
       <Button>Add</Button>
     </form>
   );
@@ -136,7 +166,7 @@ function Stats({ items }) {
         {percentage === 100
           ? `You got everything done! Felicitations! 🥳 `
           : `
-        📝 You have ${num_items} tasks on your list, and you already completed ${purchased_items}(${percentage}%)`}
+        📝 You have ${num_items} items on your list, and you already purchased ${purchased_items}(${percentage}%)`}
       </em>
     </footer>
   );
