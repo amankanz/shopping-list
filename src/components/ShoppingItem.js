@@ -7,7 +7,7 @@ function ShoppingItem({ item, onDeleteItem, onToggleItem }) {
       <span
         style={{ textDecoration: item.purchased ? "line-through" : "none" }}
       >
-        {item.name}
+        {item.quantity} {item.name}
       </span>
       <Button onClick={() => onDeleteItem(item.id)}>❌</Button>
     </li>

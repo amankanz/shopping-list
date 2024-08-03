@@ -15,12 +15,14 @@ function AddItemForm({ onAddNewItem }) {
     const new_item = {
       name: newItem,
       purchased: false,
+      quantity,
       id,
     };
 
     onAddNewItem(new_item);
 
     setNewItem("");
+    setQuantity(1);
   }
   return (
     <form onSubmit={handleSubmit}>

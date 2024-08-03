@@ -5,11 +5,11 @@ import ShoppingItem from "./ShoppingItem";
 import Stats from "./Stats";
 
 const initials_items = [
-  { name: "Milk", purchased: false, id: 233445 },
-  { name: "Bread", purchased: false, id: 233000 },
-  { name: "Eggs", purchased: false, id: 222224 },
-  { name: "Butter", purchased: false, id: 12389 },
-  { name: "Cheese", purchased: false, id: 18467 },
+  { name: "Milk", purchased: false, quantity: 2, id: 233445 },
+  { name: "Bread", purchased: false, quantity: 1, id: 233000 },
+  { name: "Eggs", purchased: false, quantity: 5, id: 222224 },
+  { name: "Butter", purchased: false, quantity: 1, id: 12389 },
+  { name: "Cheese", purchased: false, quantity: 2, id: 18467 },
 ];
 
 function ShoppingList() {
